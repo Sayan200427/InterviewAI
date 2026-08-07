@@ -26,9 +26,27 @@ function Step1SetUp({ onStart }) {
   const [resumeText, setResumeText] = useState("");
   const [analysisDone, setAnalysisDone] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
+  const [resumeError, setResumeError] = useState("");
 
   const handleUploadResume = async () => {
-    if (!resumeFile || analyzing) return;
+    if (analyzing) return;
+
+    if (!userData) {
+      setResumeError("Please sign in before analyzing your resume.");
+      return;
+    }
+
+    if (!resumeFile) {
+      setResumeError("Please choose a PDF resume first.");
+      return;
+    }
+
+    if (resumeFile.type !== "application/pdf") {
+      setResumeError("Please upload a PDF file.");
+      return;
+    }
+
+    setResumeError("");
     setAnalyzing(true);
 
     const formdata = new FormData();
@@ -51,8 +69,12 @@ function Step1SetUp({ onStart }) {
 
       setAnalyzing(false);
     } catch (error) {
-      console.log(error);
+      const message =
+        error.response?.data?.message ||
+        "Resume analysis failed. Please try again.";
 
+      console.log(message, error.response?.data || error);
+      setResumeError(message);
       setAnalyzing(false);
     }
   };
@@ -216,6 +238,11 @@ focus:ring-2 focus:ring-green-500 outline-none transition"
                   >
                     {analyzing ? "Analyzing..." : "Analyze Resume"}
                   </motion.button>
+                )}
+                {resumeError && (
+                  <p className="mt-3 text-sm font-medium text-red-600">
+                    {resumeError}
+                  </p>
                 )}
               </motion.div>
             )}
