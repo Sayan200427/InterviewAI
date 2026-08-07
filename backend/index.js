@@ -10,11 +10,23 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin:"https://interviewai-client-u69a.onrender.com",
-  credentials:true
-}))
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "https://interviewai-client-u69a.onrender.com",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
+].filter(Boolean);
 
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
 app.use(express.json())
 app.use(cookieParser())

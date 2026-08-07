@@ -10,7 +10,9 @@ import InterviewHistory from "./pages/InterviewHistory";
 import Pricing from "./pages/Pricing";
 import InterviewReport from "./pages/InterviewReport";
 
-export const ServerUrl = "https://interviewai-y9w3.onrender.com";
+const isLocalhost = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+export const ServerUrl = import.meta.env.VITE_API_URL || (isLocalhost ? "http://localhost:8000" : "https://interviewai-y9w3.onrender.com");
 
 function App() {
     const dispatch = useDispatch();

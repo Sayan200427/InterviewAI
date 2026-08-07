@@ -12,12 +12,11 @@ function InterviewHistory() {
   useEffect(() => {
     const getMyInterviews = async () => {
       try {
-        const result = await axios.getUri(
+        const result = await axios.get(
           ServerUrl + "/api/interview/get-interview",
           { withCredentials: true },
         );
         setInterviews(result.data);
-       
       } catch (error) {
         console.log(error);
       }
@@ -63,8 +62,7 @@ hover:shadow-md transition"
           <div className="grid gap-6">
             {interviews.map((item, index) => (
               <div
-
-                onClick={() =>{`/report/${item._id}`}}
+                onClick={() => navigate(`/report/${item._id}`)}
                 key={index}
                 className="bg-white p-6 rounded-2xl shadow-md
     hover:shadow-xl transition-all duration-300 cursor-pointer border

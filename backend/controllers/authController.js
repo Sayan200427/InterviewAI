@@ -15,11 +15,12 @@ const googleAuth = async (req, res) => {
         }
 
         const token = await genToken(user._id);
+        const isProduction = process.env.NODE_ENV === "production";
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             maxAge: 604800 * 1000
         });
 
@@ -33,10 +34,12 @@ const googleAuth = async (req, res) => {
 
 const logOut = async (req, res) => {
     try {
+        const isProduction = process.env.NODE_ENV === "production";
+
         res.clearCookie("token", {
             httpOnly: true,
-            secure: false,
-            sameSite: "strict"
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax"
         });
 
         return res.status(200).json({
