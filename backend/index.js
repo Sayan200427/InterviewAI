@@ -12,7 +12,7 @@ const app = express();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  "https://interviewai-client-u69a.onrender.com",
+  "https://interviewai-dlxt.onrender.com",
   "http://localhost:5173",
   "http://127.0.0.1:5173"
 ].filter(Boolean);
