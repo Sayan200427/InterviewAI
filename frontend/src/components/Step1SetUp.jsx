@@ -148,6 +148,8 @@ const handleStart = async () =>{
             <div className="relative">
               <FaUserTie className="absolute top-4 left-4 text-gray-400" />
               <input
+                id="role"
+                name="role"
                 type="text"
                 placeholder="Enter role"
                 className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition"
@@ -159,6 +161,8 @@ const handleStart = async () =>{
             <div className="relative">
               <FaBriefcase className="absolute top-4 left-4 text-gray-400" />
               <input
+                id="experience"
+                name="experience"
                 type="text"
                 placeholder="Experience (e.g. 2 years)"
                 className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition"
@@ -167,6 +171,8 @@ const handleStart = async () =>{
               />
             </div>
             <select
+              id="mode"
+              name="mode"
               value={mode}
               onChange={(e) => setMode(e.target.value)}
               className="w-full py-3 px-4 border border-gray-200 rounded-xl
@@ -185,6 +191,7 @@ focus:ring-2 focus:ring-green-500 outline-none transition"
                 <FaFileUpload className="text-4xl mx-auto text-green-600 mb-3" />
 
                 <input
+                  name="resume"
                   type="file"
                   accept="application/pdf"
                   id="resumeUpload"
