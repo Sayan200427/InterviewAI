@@ -3,6 +3,10 @@ const jwt = require("jsonwebtoken");
 
 const isAuth = async (req , res , next)=>{
     try{
+        // Debug: log cookies and origin to help troubleshoot missing token in production
+        console.log('isAuth - cookies:', req.cookies);
+        console.log('isAuth - request origin:', req.get('origin') || req.headers.referer || req.hostname);
+
         let {token} = req.cookies;
 
         if(!token){

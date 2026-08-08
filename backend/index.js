@@ -10,6 +10,9 @@ dotenv.config();
 
 const app = express();
 
+// If behind a proxy (Render, Heroku, etc.) enable trust proxy
+// so Express knows it's running over HTTPS when setting secure cookies.
+app.set("trust proxy", 1);
 const allowedOrigins = [
   process.env.CLIENT_URL,
   "https://interviewai-client-u69a.onrender.com",
@@ -17,6 +20,7 @@ const allowedOrigins = [
   "http://127.0.0.1:5173"
 ].filter(Boolean);
 
+console.log("Allowed CORS origins:", allowedOrigins);
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
