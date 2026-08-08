@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import { useEffect, useState } from "react";
@@ -16,6 +16,8 @@ export const ServerUrl = import.meta.env.VITE_API_URL || (isLocalhost ? "http://
 
 function App() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [authError, setAuthError] = useState("");
 
     useEffect(() => {
@@ -36,18 +38,20 @@ function App() {
 
                 const message =
                     err.response?.data?.message || err.message || "Session expired.";
-                if (message.toLowerCase().includes("token")) {
-                    setAuthError(
-                        "Session invalid or expired. Please sign in again to access your history and interview data."
-                    );
-                } else {
-                    setAuthError("Unable to verify session. Please sign in again.");
+                const authMessage = message.toLowerCase().includes("token")
+                    ? "Session invalid or expired. Please sign in again to access your history and interview data."
+                    : "Unable to verify session. Please sign in again.";
+
+                setAuthError(authMessage);
+
+                if (location.pathname !== "/auth") {
+                    navigate("/auth", { replace: true });
                 }
             }
         };
 
         getUser();
-    }, [dispatch]);
+    }, [dispatch, location.pathname, navigate]);
 
     return (
         <>
