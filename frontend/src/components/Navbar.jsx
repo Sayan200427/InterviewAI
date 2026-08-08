@@ -27,14 +27,8 @@ function Navbar() {
         { withCredentials: true },
       );
 
-      dispatch(setUserData(null));
-      setShowCreditPopup(false);
-      setShowUserPopup(false);
-      navigate("/auth");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        localStorage.removeItem("authToken");
+        delete axios.defaults.headers.common["Authorization"];
 
   return (
     <div className="bg-[#f3f3f3] flex justify-center px-4 pt-6">

@@ -21,6 +21,11 @@ function App() {
     const [authError, setAuthError] = useState("");
 
     useEffect(() => {
+        const savedToken = localStorage.getItem("authToken");
+        if (savedToken) {
+            axios.defaults.headers.common["Authorization"] = `Bearer ${savedToken}`;
+        }
+
         const getUser = async () => {
             try {
                 const result = await axios.get(
@@ -35,6 +40,8 @@ function App() {
             } catch (err) {
                 console.log(err);
                 dispatch(setUserData(null));
+                localStorage.removeItem("authToken");
+                delete axios.defaults.headers.common["Authorization"];
 
                 const message =
                     err.response?.data?.message || err.message || "Session expired.";

@@ -28,8 +28,14 @@ function Auth({isModel = false}) {
           const result = await axios.post(ServerUrl + "/api/auth/google" , 
             { name , email }, {withCredentials : true}
           );
-          
-          dispatch(setUserData(result.data));
+
+          const token = result.data?.token;
+          if (token) {
+            localStorage.setItem("authToken", token);
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          }
+
+          dispatch(setUserData(result.data.user || result.data));
           navigate("/");
 
       }catch(err){

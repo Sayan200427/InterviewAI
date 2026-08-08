@@ -29,7 +29,7 @@ const googleAuth = async (req, res) => {
 
         res.cookie("token", token, cookieOptions);
 
-        return res.status(200).json(user);
+        return res.status(200).json({ user, token });
     } catch (err) {
         return res.status(500).json({
             message: `Google auth error: ${err.message}`
