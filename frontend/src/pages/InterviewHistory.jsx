@@ -1,16 +1,20 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ServerUrl } from "../App";
 import { FaArrowLeft } from "react-icons/fa";
 
 function InterviewHistory() {
   const [interviews, setInterviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const getMyInterviews = async () => {
+      setLoading(true);
+      setError("");
+
       try {
         const result = await axios.get(
           ServerUrl + "/api/interview/get-interview",
@@ -19,6 +23,18 @@ function InterviewHistory() {
         setInterviews(result.data);
       } catch (error) {
         console.log(error);
+        const message =
+          error.response?.data?.message || error.message || "Failed to load history.";
+
+        if (message.toLowerCase().includes("token")) {
+          setError(
+            "Your session has expired or is not authenticated. Please sign in again."
+          );
+        } else {
+          setError(message);
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -52,7 +68,21 @@ hover:shadow-md transition"
           </div>
         </div>
 
-        {interviews.length === 0 ? (
+        {error ? (
+          <div className="bg-white p-10 rounded-2xl shadow text-center">
+            <p className="text-red-600 font-medium mb-4">{error}</p>
+            <button
+              onClick={() => navigate("/auth")}
+              className="bg-black text-white px-6 py-2 rounded-full"
+            >
+              Sign in again
+            </button>
+          </div>
+        ) : loading ? (
+          <div className="bg-white p-10 rounded-2xl shadow text-center">
+            <p className="text-gray-500">Loading interview history...</p>
+          </div>
+        ) : interviews.length === 0 ? (
           <div className="bg-white p-10 rounded-2xl shadow text-center">
             <p className="text-gray-500">
               No interviews found. Start your first interview.

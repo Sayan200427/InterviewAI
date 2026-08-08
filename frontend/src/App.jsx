@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useDispatch,  } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserData } from "./redux/userSlice";
 import InterviewPage from "./pages/InterviewPage";
 import InterviewHistory from "./pages/InterviewHistory";
@@ -16,6 +16,7 @@ export const ServerUrl = import.meta.env.VITE_API_URL || (isLocalhost ? "http://
 
 function App() {
     const dispatch = useDispatch();
+    const [authError, setAuthError] = useState("");
 
     useEffect(() => {
         const getUser = async () => {
@@ -28,9 +29,20 @@ function App() {
                 );
 
                 dispatch(setUserData(result.data));
+                setAuthError("");
             } catch (err) {
                 console.log(err);
                 dispatch(setUserData(null));
+
+                const message =
+                    err.response?.data?.message || err.message || "Session expired.";
+                if (message.toLowerCase().includes("token")) {
+                    setAuthError(
+                        "Session invalid or expired. Please sign in again to access your history and interview data."
+                    );
+                } else {
+                    setAuthError("Unable to verify session. Please sign in again.");
+                }
             }
         };
 
@@ -38,14 +50,21 @@ function App() {
     }, [dispatch]);
 
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/interview" element={<InterviewPage />} />
-             <Route path="/history" element={<InterviewHistory/>} />
-              <Route path="/pricing" element={<Pricing/>} />
-               <Route path="/report/:id" element={<InterviewReport/>} />
-        </Routes>
+        <>
+            {authError && (
+                <div className="w-full bg-red-100 border border-red-200 text-red-700 p-4 text-center">
+                    {authError}
+                </div>
+            )}
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/interview" element={<InterviewPage />} />
+                <Route path="/history" element={<InterviewHistory />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/report/:id" element={<InterviewReport />} />
+            </Routes>
+        </>
     );
 }
 
