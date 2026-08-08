@@ -26,6 +26,7 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn("CORS rejection. Origin:", origin, "Allowed:", allowedOrigins);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -39,6 +40,23 @@ app.use("/api/auth" , authRouter)
 app.use("/api/user" , require('./routes/user_route'))
 app.use("/api/interview" , interviewRouter)
 app.use("/api/payment" , paymentRouter)
+
+// Debug route: returns cookies and relevant headers when DEBUG=true
+app.get('/api/debug/cookies', (req, res) => {
+  if (process.env.DEBUG !== 'true') {
+    return res.status(403).json({ message: 'Debug disabled' });
+  }
+
+  return res.json({
+    cookies: req.cookies || {},
+    origin: req.get('origin') || null,
+    referer: req.get('referer') || null,
+    headers: {
+      host: req.get('host') || null,
+      'user-agent': req.get('user-agent') || null,
+    }
+  });
+});
 
 
 const PORT = process.env.PORT || 6000;
