@@ -43,10 +43,6 @@ function App() {
                     : "Unable to verify session. Please sign in again.";
 
                 setAuthError(authMessage);
-
-                if (location.pathname !== "/auth") {
-                    navigate("/auth", { replace: true });
-                }
             }
         };
 

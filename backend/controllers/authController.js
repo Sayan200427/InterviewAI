@@ -15,14 +15,19 @@ const googleAuth = async (req, res) => {
         }
 
         const token = await genToken(user._id);
-        const isProduction = process.env.NODE_ENV === "production";
+        const isProduction =
+            process.env.NODE_ENV === "production" ||
+            !!process.env.RENDER ||
+            process.env.RENDER === "true";
 
-        res.cookie("token", token, {
+        const cookieOptions = {
             httpOnly: true,
             secure: isProduction,
             sameSite: isProduction ? "none" : "lax",
             maxAge: 604800 * 1000
-        });
+        };
+
+        res.cookie("token", token, cookieOptions);
 
         return res.status(200).json(user);
     } catch (err) {
@@ -34,7 +39,10 @@ const googleAuth = async (req, res) => {
 
 const logOut = async (req, res) => {
     try {
-        const isProduction = process.env.NODE_ENV === "production";
+        const isProduction =
+            process.env.NODE_ENV === "production" ||
+            !!process.env.RENDER ||
+            process.env.RENDER === "true";
 
         res.clearCookie("token", {
             httpOnly: true,
