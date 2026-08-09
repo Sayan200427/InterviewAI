@@ -1,113 +1,14 @@
-# AI Interview
-
-AI Interview is a full-stack interview preparation app. The frontend is built with React and Vite, and the backend uses Express, MongoDB, JWT authentication, Razorpay payments, Firebase login, resume upload/parsing, and AI-generated interview questions and feedback.
-
-## Project Structure
-
-```text
-.
-+-- backend/     # Express API, MongoDB models, auth, payments, interview logic
-`-- frontend/    # React + Vite client app
-```
-
-## Prerequisites
-
-- Node.js
-- npm
-- MongoDB connection string
-- Firebase project credentials
-- OpenRouter API key
-- Razorpay API keys
-
-## Environment Variables
-
-Create a `.env` file inside `backend/`:
-
-```env
-PORT=6000
-MONGODB_URL=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-OPENROUTER_API_KEY=your_openrouter_api_key
-RAZORPAY_KEY_ID=your_razorpay_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-```
-
-Create a `.env` file inside `frontend/`:
-
-```env
-VITE_FIREBASE_APIKEY=your_firebase_api_key
-VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
-```
-
-## Installation
-
-Install backend dependencies:
-
-```bash
-cd backend
-npm install
-```
-
-Install frontend dependencies:
-
-```bash
-cd ../frontend
-npm install
-```
-
-## Running Locally
-
-Start the backend:
-
-```bash
-cd backend
-npm run dev
-```
-
-Start the frontend in another terminal:
-
-```bash
-cd frontend
-npm run dev
-```
-
-The frontend runs at:
-
-```text
-http://localhost:5173
-```
-
-The backend defaults to:
-
-```text
-http://localhost:6000
-```
-
-Note: `frontend/src/App.jsx` currently sets `ServerUrl` to `http://localhost:8000`. Update that value to match your backend port, or run the backend with `PORT=8000`.
-
-## Available Scripts
-
-Backend:
-
-```bash
-npm run dev
-npm start
-```
-
-Frontend:
-
-```bash
-npm run dev
-npm run build
-npm run lint
-npm run preview
-```
-
-## Features
-
-- User authentication with Google/Firebase and JWT cookies
-- Resume upload and parsing
-- AI-generated interview questions
-- Interview answer submission and feedback
-- Interview reports and history
-- Razorpay payment integration
+InterviewAIAn intelligent, interactive mock interview platform designed to help candidates prepare for technical, behavioral, and domain-specific job interviews using Generative AI.InterviewAI provides realistic interview simulations, dynamic question generation based on target roles or resumes, and real-time actionable feedback on candidate responses.✨ FeaturesTailored Mock Interviews: Generate custom interview questions tailored to specific job descriptions, experience levels, and tech stacks.AI-Powered Evaluation: Receive instant, granular feedback on technical accuracy, problem-solving approach, communication clarity, and tone.Resume Parsing: Upload resumes to experience dynamic questions centered on your specific projects and background.Real-time Interaction: Support for both text-based and speech-enabled (Voice-to-Text / Text-to-Speech) interview modes.Performance Analytics: Track performance metrics over time to identify strengths and areas for improvement.🛠️ Tech StackComponentTechnologyFrontendReact / Next.js, Tailwind CSSBackendNode.js (Express) / Python (FastAPI)AI / LLMOpenAI API / Google Gemini API / LangChainDatabasePostgreSQL / MongoDB / SupabaseAuthenticationNextAuth / Clerk / Firebase Auth🚀 Getting StartedPrerequisitesEnsure you have the following installed on your local machine:Node.js (v18.0.0 or higher)npm, yarn, or pnpmAPI Keys for the AI service (e.g., OpenAI API Key or Gemini API Key)InstallationClone the repository:Bashgit clone https://github.com/Sayan200427/InterviewAI.git
+cd InterviewAI
+Install dependencies:Bashnpm install
+# or
+yarn install
+Configure Environment Variables:Create a .env.local or .env file in the root directory and add your credentials:Code snippetNEXT_PUBLIC_APP_URL=http://localhost:3000
+DATABASE_URL=your_database_connection_string
+OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
+NEXTAUTH_SECRET=your_nextauth_secret
+Run the development server:Bashnpm run dev
+# or
+yarn dev
+Access the application:Open your browser and navigate to http://localhost:3000.⚙️ Environment Variables ReferenceVariableDescriptionRequiredOPENAI_API_KEYAPI key used for generating interview questions & feedbackYesDATABASE_URLDatabase connection stringYesNEXTAUTH_SECRETSecret key used for session encryptionYes🤝 ContributingContributions are welcome! To contribute:Fork the ProjectCreate your Feature Branch (git checkout -b feature/NewFeature)Commit your Changes (git commit -m 'Add some NewFeature')Push to the Branch (git push origin feature/NewFeature)Open a Pull Request📜 LicenseDistributed under the MIT License. See LICENSE for more information.
